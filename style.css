@@ -1,73 +1,11 @@
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1, h2 {
-            color: #4CAF50;
-        }
-        input, select, button {
-            margin: 5px;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #4CAF50;
-            background-color: #2a2a2a;
-            color: #ffffff;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background-color: #2a2a2a;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .completed {
-            text-decoration: line-through;
-            opacity: 0.7;
-        }
-        .subtask {
-            margin-left: 20px;
-            font-size: 0.9em;
-        }
-        .tag {
-            background-color: #4CAF50;
-            color: white;
-            padding: 2px 5px;
-            border-radius: 3px;
-            margin-right: 5px;
-            font-size: 0.8em;
-        }
-        .priority-high {
-            color: #ff4444;
-        }
-        .priority-medium {
-            color: #ffbb33;
-        }
-        .priority-low {
-            color: #00C851;
-        }
-        .charts {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .chart-container {
-            width: 45%;
-        }
+        :root { color-scheme: dark; }
+        body { @apply bg-gray-900 text-gray-100; }
+        .custom-tab { @apply px-4 py-2 bg-blue-600 text-white rounded-t-lg hover:bg-blue-700 transition-colors; }
+        .custom-tab.active { @apply bg-blue-800; }
+        .task-item { @apply p-4 mb-4 rounded-lg shadow-md bg-gray-800; }
+        .task-item.high-priority { @apply border-l-4 border-red-500; }
+        .task-item.medium-priority { @apply border-l-4 border-yellow-500; }
+        .task-item.low-priority { @apply border-l-4 border-green-500; }
+        .progress-bar { @apply h-2 bg-gray-700 rounded-full overflow-hidden; }
+        .progress-bar-fill { @apply h-full bg-blue-500 transition-all duration-300 ease-in-out; }
+        select, input[type="text"], input[type="date"], textarea { @apply bg-gray-700 text-white border-gray-600; }
