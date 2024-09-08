@@ -1,71 +1,75 @@
-
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Dark Mode To-Do Manager</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <title>Modern Todo App with Books</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style src="style.css"></style>
 </head>
-<body class="min-h-screen p-6">
-    <div class="container mx-auto">
-        <h1 id="greeting" class="text-3xl font-bold mb-6 text-center text-blue-400"></h1>
-        
-        <div id="tabContainer" class="mb-6">
-            <div id="tabList" class="flex space-x-2 mb-2">
-                <button class="custom-tab active" data-tab="personal">Personal</button>
-                <button class="custom-tab" data-tab="books">Books to Read</button>
+<body>
+    <div class="container">
+        <h1 id="greeting">Welcome!</h1>
+
+        <div id="tabSelector">
+            <div class="tab active" onclick="switchTab('personal')">
+                <i class="fas fa-user"></i> Personal
             </div>
-            <button id="addTabBtn" class="px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">+ New Tab</button>
+            <div class="tab" onclick="switchTab('school')">
+                <i class="fas fa-graduation-cap"></i> School
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="col-span-2">
-                <div id="taskForm" class="bg-gray-800 p-6 rounded-lg shadow-md mb-6">
-                    <h2 class="text-xl font-semibold mb-4">Add New Task</h2>
-                    <input type="text" id="taskName" placeholder="Task name" class="w-full p-2 mb-2 rounded">
-                    <div class="grid grid-cols-2 gap-4 mb-2">
-                        <select id="taskPriority" class="p-2 rounded">
-                            <option value="low">Low Priority</option>
-                            <option value="medium">Medium Priority</option>
-                            <option value="high">High Priority</option>
-                        </select>
-                        <input type="date" id="taskDueDate" class="p-2 rounded">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <select id="taskTags" class="p-2 rounded" multiple>
-                            <option value="work">Work</option>
-                            <option value="personal">Personal</option>
-                            <option value="urgent">Urgent</option>
-                            <option value="longterm">Long-term</option>
-                        </select>
-                        <input type="text" id="newTag" placeholder="Add new tag" class="p-2 rounded">
-                    </div>
-                    <button id="addTaskBtn" class="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Add Task</button>
-                </div>
-                
-                <div id="taskList" class="space-y-4"></div>
+        <div class="section">
+            <h2><i class="fas fa-plus-circle"></i> Add Task</h2>
+            <input type="text" id="taskInput" placeholder="Enter task...">
+            <select id="prioritySelect">
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
+            </select>
+            <select id="tagSelect"></select>
+            <input type="date" id="dueDateInput">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-tags"></i> Manage Tags</h2>
+            <input type="text" id="tagInput" placeholder="Enter new tag...">
+            <button onclick="addTag()">Add Tag</button>
+            <div id="tagList" class="tag-list"></div>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-tasks"></i> Tasks</h2>
+            <ul id="taskList"></ul>
+        </div>
+
+        <div class="section">
+            <h2><i class="fas fa-book"></i> Books to Read</h2>
+            <p id="booksToRead" onclick="toggleDialog('bookDialog')">Manage Books</p>
+        </div>
+
+        <div class="charts">
+            <div class="chart-container">
+                <canvas id="priorityChart"></canvas>
             </div>
-            
-            <div>
-                <div class="bg-gray-800 p-6 rounded-lg shadow-md mb-6">
-                    <h2 class="text-xl font-semibold mb-4">Statistics</h2>
-                    <canvas id="priorityChart" width="400" height="200"></canvas>
-                    <canvas id="tagChart" width="400" height="200" class="mt-4"></canvas>
-                </div>
-                
-                <div class="bg-gray-800 p-6 rounded-lg shadow-md mb-6">
-                    <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
-                    <button id="clearCompletedBtn" class="w-full p-2 mb-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors">Clear Completed Tasks</button>
-                    <button id="exportDataBtn" class="w-full p-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">Export Data</button>
-                </div>
+            <div class="chart-container">
+                <canvas id="tagChart"></canvas>
             </div>
         </div>
     </div>
+
+    <div id="bookDialog" class="dialog">
+        <h2><i class="fas fa-book"></i> Manage Books to Read</h2>
+        <input type="text" id="bookInput" placeholder="Enter book title...">
+        <button onclick="addBook()">Add Book</button>
+        <ul id="bookList"></ul>
+        <button onclick="toggleDialog('bookDialog')">Close</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
 <script src="functions.js"></script>
 </body>
 </html>
