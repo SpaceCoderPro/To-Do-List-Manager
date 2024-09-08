@@ -626,4 +626,4 @@ document.addEventListener('DOMContentLoaded', init);
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', init);
-    </script>
+
